@@ -1,43 +1,48 @@
 class Solution {
     public String removeDuplicateLetters(String s) {
         
-        int[] freq = new int[26];     // Step 1: frequency array
-        boolean[] visited = new boolean[26]; // Step 2: visited array
+        int n = s.length();
         
-        // Count frequency
-        for (char ch : s.toCharArray()) {
-            freq[ch - 'a']++;
+        // Step 1: Store last occurrence index of each character
+        int[] lastIndex = new int[26];
+        for (int i = 0; i < n; i++) {
+            lastIndex[s.charAt(i) - 'a'] = i;
         }
         
+        // Step 2: Seen array
+        boolean[] seen = new boolean[26];
+        
+        // Step 3: Stack
         Stack<Character> stack = new Stack<>();
         
-        for (char ch : s.toCharArray()) {
+        for (int i = 0; i < n; i++) {
             
-            // decrease frequency
-            freq[ch - 'a']--;
+            char ch = s.charAt(i);
+            int curr = ch - 'a';
             
-            // if already in stack, skip
-            if (visited[ch - 'a']) continue;
+            // If already in stack, skip
+            if (seen[curr]) continue;
             
-            // maintain lexicographical order
+            // Maintain lexicographically smallest order
             while (!stack.isEmpty() &&
                    stack.peek() > ch &&
-                   freq[stack.peek() - 'a'] > 0) {
+                   i < lastIndex[stack.peek() - 'a']) {
                 
-                visited[stack.peek() - 'a'] = false;
+                seen[stack.peek() - 'a'] = false;
                 stack.pop();
             }
             
             stack.push(ch);
-            visited[ch - 'a'] = true;
+            seen[curr] = true;
         }
         
-        // build result
-        StringBuilder result = new StringBuilder();
-        for (char ch : stack) {
-            result.append(ch);
+        // Build answer
+        StringBuilder ans = new StringBuilder();
+        while (!stack.isEmpty()) {
+            ans.append(stack.pop());
         }
         
-        return result.toString();
+        // Reverse because stack pops in reverse order
+        return ans.reverse().toString();
     }
 }
