@@ -3,16 +3,17 @@ class Solution {
         // Code here
         int max=Integer.MIN_VALUE;
         int i=0;
-        int j=0;
         int sum=0;
-        while(j<arr.length){
+
+        for(int j=0;j<arr.length;j++){
             sum+=arr[j];
+            
+            
             if(j-i+1==k){
                 max=Math.max(max,sum);
                 sum-=arr[i];
                 i++;
             }
-            j++;
         }
         return max;
     }
