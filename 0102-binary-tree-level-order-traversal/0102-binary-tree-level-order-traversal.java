@@ -1,29 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-
-        List<List<Integer>> wraplist = new LinkedList<>();
-        if (root == null) return wraplist;
-
-        Queue<TreeNode> queue = new LinkedList<>();
+        List<List<Integer>> ans=new ArrayList<>();
+        if(root==null) return ans;
+        Queue<TreeNode> queue=new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            List<Integer> level = new ArrayList<>();
 
-            int levelNo = queue.size();
-            List<Integer> sublist = new LinkedList<>();
+            for(int i=0;i<size;i++){
+                
+                TreeNode node=queue.poll();
+                level.add(node.val);
 
-            for (int i = 0; i < levelNo; i++) {
-                TreeNode curr = queue.poll();
-
-                sublist.add(curr.val);
-
-                if (curr.left != null) queue.offer(curr.left);
-                if (curr.right != null) queue.offer(curr.right);
+                if(node.left!=null)queue.offer(node.left);
+                if(node.right!=null)queue.offer(node.right);
             }
-
-            wraplist.add(sublist);
+            ans.add(level);
         }
-
-        return wraplist;
+        return ans;
     }
 }
