@@ -8,7 +8,7 @@ class Solution {
         int idx=0;
         while(j<nums.length){
 
-            if (!dq.isEmpty() && dq.peekFirst() <= j - k) {
+            if (!dq.isEmpty() && dq.peekFirst() < i) {
                 dq.removeFirst();
             }
 
