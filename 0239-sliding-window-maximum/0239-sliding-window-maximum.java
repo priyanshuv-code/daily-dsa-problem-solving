@@ -17,7 +17,7 @@ class Solution {
             }
             dq.addLast(j);
             if(j-i+1<k)j++;
-            else if (j-i+1>=k){
+            else if (j-i+1==k){
                 ans[idx++]=nums[dq.peekFirst()];
                 i++;
                 j++;
