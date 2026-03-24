@@ -1,41 +1,41 @@
 class Solution {
     public String minWindow(String s, String t) {
-        HashMap<Character,Integer> map=new HashMap<>();
-
-        for(int i=0;i<t.length();i++){
-            if(map.containsKey(t.charAt(i))){
-                map.put(
-                    t.charAt(i),map.get(t.charAt(i))+1);
+        HashMap<Character,Integer> t_map=new HashMap<>();
+        // frequency of t...
+        for(int j=0;j<t.length();j++){
+            char ch=t.charAt(j);
+            if(t_map.containsKey(ch)){
+               t_map.put(ch,t_map.get(ch)+1);
             }
             else{
-                map.put(t.charAt(i),1);
+                t_map.put(ch,1);
             }
         }
-        int i=0;
-        int start=0;
-        int n=s.length();
         int min=Integer.MAX_VALUE;
-        int count=t.length();
-        for(int j=0;j<n;j++){
+        int t_count=t.length();
+        int i=0;
+        int j=0;
+        int start=0;
+        while(j<s.length()){
             char ch=s.charAt(j);
-            if(map.containsKey(ch)){
-                if (map.get(ch) > 0) count--;  // main
-                map.put(ch, map.get(ch) - 1);
+            if(t_map.containsKey(ch)){
+                if (t_map.get(ch) > 0) t_count--; 
+                t_map.put(ch,t_map.get(ch)-1);
             }
-            while(count==0){
+            while(t_count==0){
                 if(j-i+1<min){
                     min=j-i+1;
                     start=i;
                 }
+
                 char left=s.charAt(i);
-                if(map.containsKey(left)){
-                    map.put(left,map.get(left)+1);
-                    if (map.get(left) > 0) { //main
-                     count++;  
-                    }   
+                if(t_map.containsKey(left)){
+                    t_map.put(left,t_map.get(left)+1);
+                    if (t_map.get(left) > 0) t_count++;
                 }
                 i++;
-            } 
+            }
+            j++;
         }
         if(min==Integer.MAX_VALUE){
             return "";
@@ -43,5 +43,6 @@ class Solution {
         else{
             return s.substring(start,start+min); 
         }
+
     }
 }
