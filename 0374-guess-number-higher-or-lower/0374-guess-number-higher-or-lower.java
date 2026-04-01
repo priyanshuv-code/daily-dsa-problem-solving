@@ -8,18 +8,17 @@
  */
 
 public class Solution extends GuessGame {
-    public int guessNumber(int n) {
+    public int guessNumber(int nums) {
         int i=1;
-        int j=n;
-
+        int j=nums;
         while(i<=j){
-            int mid=i+(j-i)/2;
-            int res=guess(mid);
+            int mid = i + (j - i) / 2;
+            int g=guess(mid);
 
-            if(res==0){
+            if(g==0){
                 return mid;
             }
-            else if(res==-1){
+            else if(g==-1){
                 j=mid-1;
             }
             else{
@@ -27,5 +26,6 @@ public class Solution extends GuessGame {
             }
         }
         return -1;
+        
     }
 }
