@@ -1,30 +1,36 @@
 class Solution {
-    public int shipWithinDays(int[] arr, int k) { // arr--> weigth and k-->days
-         int n=arr.length; 
-        if(k>n) return -1;
-        int start = Arrays.stream(arr).max().getAsInt();
-        int end = 0;
-        int ans=0;
-        for(int i=0;i<n;i++){
-            end +=arr[i];
-        }
-        while(start<=end){
-            int mid=start+(end-start)/2;
-            int count=1;
-            int page=0;
-            for(int i=0;i<n;i++){
-                page+=arr[i];
-                if(page>mid){
-                    count++;
-                    page=arr[i];
-                }
-            }
-            if(count<=k){
-                ans=mid;
-                end=mid-1;
+    private boolean ispossible(int mid,int [] weights,int days){
+        int cnt=1;
+        int curr=0;
+
+        for(int i=0;i<weights.length;i++){
+            if(curr+weights[i]<=mid){
+                curr+=weights[i];
             }
             else{
-                start=mid+1;
+                curr=weights[i];
+                cnt++;
+            }
+        }
+        return cnt<=days;
+    }
+    public int shipWithinDays(int[] weights, int days) {
+        int n= weights.length;
+        int low=Integer.MIN_VALUE;
+        int high=0;
+        int ans=0;
+        for(int i=0;i<n;i++){
+            low=Math.max(low, weights[i]);
+            high+= weights[i];
+        }
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            if(ispossible(mid,weights,days)){
+                ans=mid;
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
             }
         }
         return ans;
