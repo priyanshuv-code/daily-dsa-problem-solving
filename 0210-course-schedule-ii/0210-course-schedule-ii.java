@@ -36,7 +36,7 @@ class Solution {
                 }
             }
         }
-        if(topo.length==N)return topo;
+        if(idx==N)return topo;
         return new int[0];
     }
 }
