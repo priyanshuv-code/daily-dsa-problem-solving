@@ -1,49 +1,51 @@
 class Solution {
-    private boolean dfs(int node,List<List<Integer>> adj,int []vis,int []pathvis,int []check){
-        vis[node]=1;
-        pathvis[node]=1;
-
-        for(int it:adj.get(node)){
-            if(vis[it]==0){
-                if(dfs(it,adj,vis,pathvis,check)==true){
-                    return true;
-                }
-                
-            }
-            // if already in same path → cycle
-            else if(pathvis[it]==1){
-                return true;
-            }
-        }
-        check[node]=1;
-        pathvis[node]=0;
-        return false;
-    }
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int V=graph.length;
-        List<List<Integer>> adj = new ArrayList<>();
-        for(int i = 0; i < V; i++) adj.add(new ArrayList<>());
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
 
-        for(int i = 0; i < V; i++) {
-            for(int it : graph[i]) {
+        for(int i=0;i<V;i++){
+            adj.add(new ArrayList<>());
+        }
+
+        for(int i=0;i<V;i++){
+            for(int it:graph[i]){
                 adj.get(i).add(it);
             }
         }
-        int []vis=new int[V];
-        int []pathvis=new int[V];
-        int []check=new int[V];
+
+        int [] indegree=new int[V];
+        ArrayList<ArrayList<Integer>> rev=new ArrayList<>();
+        for(int i=0;i<V;i++){
+            rev.add(new ArrayList<>());
+        }
 
         for(int i=0;i<V;i++){
-            if(vis[i]==0){
-                dfs(i,adj,vis,pathvis,check);
+            for(int it:adj.get(i)){
+                rev.get(it).add(i);
+                indegree[i]++;
             }
         }
-        List<Integer> ans=new ArrayList<>();
-        for(int i = 0; i < V; i++) {
-            if(check[i] == 1)
-                ans.add(i);
-        }
 
-        return ans;
+        Queue<Integer> q=new LinkedList<>();
+
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0) q.add(i);
+        }
+        
+        ArrayList<Integer> safe=new ArrayList<>();
+
+        while(!q.isEmpty()){
+            int node=q.poll();
+            safe.add(node);
+
+            for(int it:rev.get(node)){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    q.add(it);
+                }
+            }
+        }
+        Collections.sort(safe);
+        return safe;
     }
 }
