@@ -1,5 +1,5 @@
 class Solution {
-    private void dfs(int node,int [][] isConnected,int []vis){
+    private void dfs(int node,int[][] isConnected,int[] vis){
         vis[node]=1;
 
         for(int j=0;j<isConnected.length;j++){
@@ -9,17 +9,16 @@ class Solution {
         }
     }
     public int findCircleNum(int[][] isConnected) {
-        int count=0;
-
         int V=isConnected.length;
+        int cnt=0;
 
-        int []vis=new int[V];
+        int [] vis=new int[V];
         for(int i=0;i<V;i++){
             if(vis[i]==0){
                 dfs(i,isConnected,vis);
-                count++;
+                cnt++;
             }
         }
-        return count;
+        return cnt;
     }
 }
