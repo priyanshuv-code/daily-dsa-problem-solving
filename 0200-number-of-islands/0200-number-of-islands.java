@@ -1,63 +1,50 @@
 class Solution {
-    class Pair{
+    class pair{
         int row;
         int col;
-        Pair(int row,int col){
+        pair(int row,int col){
             this.row=row;
             this.col=col;
         }
+    }
+    public void bfs(int start,int row,int [][]vis,char[][] grid){
+        int n = grid.length;
+        int m = grid[0].length;
 
+        Queue<pair> q=new LinkedList<>();
+        q.add(new pair(start,row));
+        vis[start][row]=1;
+        int []dr={-1,0,0,1};
+        int []dc={0,-1,1,0};
+        while(!q.isEmpty()){
+            pair curr=q.poll();
+
+            for(int i=0;i<4;i++){
+                int rowr=curr.row+dr[i];
+                int colc=curr.col+dc[i];
+
+                if(rowr>=0 && rowr<n &&  colc>=0 && colc<m &&  grid[rowr][colc]=='1' && vis[rowr][colc]==0){
+                    q.add(new pair(rowr,colc));
+                    vis[rowr][colc]=1;
+                }
+            }
+        }
     }
     public int numIslands(char[][] grid) {
-        int m=grid.length, n=grid[0].length;
         int count=0;
-        boolean[][]vis=new boolean[m][n];
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]=='1' && vis[i][j]==false){
-                    bfs(i,j,grid,vis);
+        int n=grid.length;
+        int m=grid[0].length;
+        int [][]vis=new int[n][m];
+
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(vis[i][j]==0 && grid[i][j]=='1'){
+                    bfs(i,j,vis,grid);
                     count++;
                 }
             }
         }
         return count;
-    }
-    private void bfs(int i,int j,char[][] grid,boolean [][] vis){
-        int m=grid.length, n=grid[0].length;
-        Queue<Pair> q=new LinkedList<>();
-        q.add(new Pair(i,j));
-        while(q.size()>0){
-            Pair front=q.remove();
-            int row=front.row, col=front.col;
-            // top -> row-1,col
-
-            if(row>0){
-                if(vis[row-1][col]==false && grid[row-1][col]=='1'){
-                    q.add(new Pair(row-1,col));
-                    vis[row-1][col]=true;
-                }
-            }
-            // bottom -> row+1,col
-            if((row+1)<m){
-                if(vis[row+1][col]==false && grid[row+1][col]=='1'){
-                    q.add(new Pair(row+1,col));
-                    vis[row+1][col]=true;
-                }
-            }
-            // left -> row,col-1
-            if(col>0){
-                if(vis[row][col-1]==false && grid[row][col-1]=='1'){
-                    q.add(new Pair(row,col-1));
-                    vis[row][col-1]=true;
-                }
-            }
-            // right 0> row,col+1;
-            if((col+1)<n){
-                if(vis[row][col+1]==false && grid[row][col+1]=='1'){
-                    q.add(new Pair(row,col+1));
-                    vis[row][col+1]=true;
-                }
-            }
-        }
-    }
+    } 
 }
