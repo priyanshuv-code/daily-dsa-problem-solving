@@ -1,43 +1,42 @@
 class Solution {
-
-    int rows;
-    int cols;
-
-    void dfs(int row, int col, int newColor, int curColor, boolean[][] visited, int[][] image) {
-
-        // out of bounds, already visited, or color not same
-        if (row < 0 || row >= rows || col < 0 || col >= cols 
-            || image[row][col] != curColor || visited[row][col]) {
-            return;
-        }
-
-        // mark color and visited
-        image[row][col] = newColor;
-        visited[row][col] = true;
-
-        // directions: up, right, down, left
-        int[][] adjList = {
-            {row - 1, col},
-            {row, col + 1},
-            {row + 1, col},
-            {row, col - 1}
-        };
-
-        for (int[] neighbour : adjList) {
-            dfs(neighbour[0], neighbour[1], newColor, curColor, visited, image);
+    class pair{
+        int row;
+        int col;
+        pair(int row,int col){
+            this.row=row;
+            this.col=col;
         }
     }
+    public void dfs(int row,int col,int[][]image,int color,int [][]ans ,int original){
+        int n=image.length;
+        int m=image[0].length;
+        ans[row][col]=color;
+        int []dr={-1,0,1,0}; 
+        int []dc={0,1,0,-1};
 
+        for(int i=0;i<4;i++){
+            int nrow=row+dr[i];
+            int ncol=col+dc[i];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m 
+               && image[nrow][ncol]==original 
+               && ans[nrow][ncol]!=color){
+            dfs(nrow,ncol,image,color,ans,original);
+            }
+        }
+    }
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        rows = image.length;
-        cols = image[0].length;
-
-        boolean[][] visited = new boolean[rows][cols];
-
-        int curColor = image[sr][sc];
-
-        dfs(sr, sc, color, curColor, visited, image);
-
-        return image;
+        int n=image.length;
+        int m=image[0].length;
+        int [][]ans=new int [n][m];
+        // ✅ IMPORTANT: copy image into ans
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                ans[i][j] = image[i][j];
+            }
+        }
+        int original=image[sr][sc];
+        if(original == color) return image; // imp
+        dfs(sr,sc,image,color,ans,original);
+        return ans;
     }
 }
