@@ -4,11 +4,11 @@ class Solution {
         int i=0;
         for(int j=0;j<n;j++){
             if(nums[j]!=0){
-                int temp=nums[j];
-                nums[j]=nums[i];
-                nums[i]=temp;
-                i++;
+                nums[i++]=nums[j];
             }
+        }
+        for(int k=i;k<n;k++){
+            nums[k]=0;
         }
     }
 }
