@@ -1,31 +1,31 @@
 class Solution {
-    public int trap(int[] nums) {
-        int n=nums.length;
-        int i=0;
-        int j=n-1;
-        int ans=0;
+    public int trap(int[] height) {
+        int n=height.length;
         int leftmax=0;
         int rightmax=0;
+        int cnt=0;
+        int i=0;
+        int j=n-1;
         while(i<j){
-            if(nums[i]<=nums[j]){
-                if(nums[i]>leftmax){
-                    leftmax=nums[i];
+            if(height[i]<height[j]){
+                if(height[i]<leftmax){
+                    cnt+=leftmax-height[i];
                 }
                 else{
-                    ans += leftmax - nums[i];
+                    leftmax=Math.max(leftmax,height[i]);
                 }
                 i++;
             }
             else{
-                if(nums[j]>rightmax){
-                    rightmax=nums[j]; 
+                if(height[j]<rightmax){
+                    cnt+=rightmax-height[j];
                 }
                 else{
-                    ans+=rightmax-nums[j];
+                    rightmax=Math.max(rightmax,height[j]);
                 }
                 j--;
             }
         }
-        return ans;
+        return cnt;
     }
 }
