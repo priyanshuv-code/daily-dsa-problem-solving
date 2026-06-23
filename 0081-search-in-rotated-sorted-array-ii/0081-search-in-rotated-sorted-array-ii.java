@@ -1,36 +1,33 @@
 class Solution {
     public boolean search(int[] nums, int target) {
         int n=nums.length;
-        if(n==1)return nums[0]==target;
-        int left=0;
-        int right=n-1;
-
-        while(left<=right){
-            int mid=(left+right)/2;
-
-            if(nums[mid]==target)return true;
-
-            if(nums[left]==nums[mid] && nums[mid]==nums[right]){
-                left++;
-                right--;
+        int i=0;
+        int j=n-1;
+        while(i<=j){
+            int mid=(i+j)/2;
+            if(nums[mid]==target){
+                return true;
+            }
+            if(nums[i] == nums[mid] && nums[mid] == nums[j]){
+                i++;
+                j--;
                 continue;
             }
-            // left side is sorted
-
-            if(nums[left]<nums[mid]){
-                if(target<nums[mid] && target>=nums[left]){
-                    right=mid-1;
+            if(nums[i]<=nums[mid]){
+                // means left side is sorted
+                if(nums[i]<=target && target<nums[mid]){
+                    j=mid-1;
                 }
                 else{
-                    left=mid+1;
+                    i=mid+1;
                 }
             }
             else{
-                if(target>nums[mid] && target<=nums[right]){
-                    left=mid+1;
+                if(target>nums[mid] && target<=nums[j]){
+                    i=mid+1;
                 }
                 else{
-                    right=mid-1;
+                    j=mid-1;
                 }
             }
         }
