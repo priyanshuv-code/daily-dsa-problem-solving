@@ -1,18 +1,18 @@
 class Solution {
     public ArrayList<Integer> nextLargerElement(int[] arr) {
         // code here
-        ArrayList<Integer> list=new ArrayList<>();
+        ArrayList<Integer>list=new ArrayList<>();
         Stack<Integer> st=new Stack<>();
-        
-        for(int i=arr.length-1;i>=0;i--){
-            while(!st.isEmpty() && st.peek()<=arr[i]){
+        int n=arr.length;
+        for(int i=n-1;i>=0;i--){
+            while(!st.isEmpty() && arr[i]>=st.peek()){
                 st.pop();
             }
-            if(st.isEmpty()){
-                list.add(-1);
+            if(!st.isEmpty()){
+                list.add(st.peek());
             }
             else{
-                list.add(st.peek());
+                list.add(-1);
             }
             st.push(arr[i]);
         }
