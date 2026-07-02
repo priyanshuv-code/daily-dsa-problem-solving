@@ -1,18 +1,24 @@
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        int []freq1=new int[256];
-        int []freq2=new int[256];
+        HashMap<Character,Character> map1=new HashMap<>();
+        HashMap<Character,Character> map2=new HashMap<>();
 
         for(int i=0;i<s.length();i++){
             char ch1=s.charAt(i);
-            char ch2=t.charAt(i);
-
-            if(freq1[ch1]!=freq2[ch2])return false;
-
-            freq1[ch1]=i+1;
-            freq2[ch2]=i+1;
+            char ch2=t.charAt(i);     
+            if(map1.containsKey(ch1) && map2.containsKey(ch2)){
+                if(map1.get(ch1)!=ch2 || map2.get(ch2)!=ch1){
+                    return false;
+                }
+            }
+            else if(!map1.containsKey(ch1) && !map2.containsKey(ch2) ){
+                map1.put(ch1,ch2);
+                map2.put(ch2,ch1);
+            }
+            else{
+                return false;
+            }
         }
         return true;
-        
     }
 }
