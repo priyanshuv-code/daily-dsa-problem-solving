@@ -7,38 +7,57 @@ class Solution {
             this.col=col;
         }
     }
-    public void bfs(int row,int col,int [][] vis,char [][]grid){
-        int n=grid.length;
-        int m=grid[0].length;
+    public void bfs(int i,int j,boolean [][] vis,char [][] grid){
+        int m=grid.length;
+        int n=grid[0].length;
+
         Queue<pair> q=new LinkedList<>();
-        q.add(new pair(row,col));
-        vis[row][col]=1;
-        int []dr={-1,0,1,0};
-        int []dc={0,1,0,-1};
-        while(!q.isEmpty()){
-            pair curr=q.poll();
+        q.add(new pair(i,j));
+        while(q.size()>0){
+            pair f=q.remove();
+            int row=f.row,  col=f.col;
 
-            for(int i=0;i<4;i++){
-                int newr=curr.row+dr[i];
-                int newc=curr.col+dc[i];
+            // top -> row-1,col
 
-                if(newr>=0 && newr<n && newc>=0 && newc<m && vis[newr][newc]==0 && grid[newr][newc]=='1'){
-                    vis[newr][newc]=1;
-                    q.add(new pair(newr,newc));
+            if(row>0){
+                if(vis[row-1][col]==false && grid[row-1][col]=='1'){
+                    q.add(new pair(row-1,col));
+                    vis[row-1][col]=true;
+                }
+            }
+            // bottom -> row+1,col;
+
+            if((row+1)<m){
+                if(vis[row+1][col]==false && grid[row+1][col]=='1'){
+                    vis[row+1][col]=true;
+                    q.add(new pair(row+1,col));
+                }
+            }
+            // right -> row,col+1;
+            if((col+1)<n){
+                if(vis[row][col+1]==false && grid[row][col+1]=='1'){
+                    vis[row][col+1]=true;
+                    q.add(new pair(row,col+1));
+                }
+            }
+            // left -> row,col-1;
+            if(col>0){
+                if(vis[row][col-1]==false && grid[row][col-1]=='1'){
+                    vis[row][col-1]=true;
+                    q.add(new pair(row,col-1));
                 }
             }
         }
     }
     public int numIslands(char[][] grid) {
-        int n=grid.length;
-        int m=grid[0].length;
+        int m=grid.length;
+        int n=grid[0].length;
 
-        int [][]vis=new int[n][m];
         int cnt=0;
-
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(vis[i][j]==0 && grid[i][j]=='1'){
+        boolean [][]vis=new boolean[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]=='1' && vis[i][j]==false){
                     bfs(i,j,vis,grid);
                     cnt++;
                 }
