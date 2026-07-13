@@ -1,42 +1,65 @@
 class Solution {
     class pair{
-        int row;
-        int col;
-        pair(int row,int col){
-            this.row=row;
-            this.col=col;
+        int first;
+        int second;
+        pair(int first,int second){
+            this.first=first;
+            this.second=second;
         }
     }
-    public void dfs(int row,int col,int[][]image,int color,int [][]ans ,int original){
-        int n=image.length;
-        int m=image[0].length;
-        ans[row][col]=color;
-        int []dr={-1,0,1,0}; 
-        int []dc={0,1,0,-1};
+    public void bfs(int[][] grid,int sr,int sc,int color,boolean [][]vis){
+        int m=grid.length;
+        int n=grid[0].length;
+        Queue<pair> q=new LinkedList<>();
+        q.add(new pair(sr,sc));
+        vis[sr][sc] = true;
+        int ori=grid[sr][sc];
+        grid[sr][sc]=color;
+        while(!q.isEmpty()){
+            pair curr=q.poll();
+            int r=curr.first;
+            int c=curr.second;
 
-        for(int i=0;i<4;i++){
-            int nrow=row+dr[i];
-            int ncol=col+dc[i];
-            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m 
-               && image[nrow][ncol]==original 
-               && ans[nrow][ncol]!=color){
-            dfs(nrow,ncol,image,color,ans,original);
+            // up -> row-1,col
+            if(r>0){
+                if(!vis[r-1][c] && grid[r-1][c]==ori){
+                    q.add(new pair(r-1,c));
+                    vis[r-1][c]=true;
+                    grid[r-1][c]=color;
+                }
+            }
+            // bottom -> row+1,col
+            if((r+1)<m){
+                if(!vis[r+1][c] && grid[r+1][c]==ori){
+                    q.add(new pair(r+1,c));
+                    vis[r+1][c]=true;
+                    grid[r+1][c]=color;
+                }
+            }
+            // left -> row,col-1
+            if(c>0){
+                if(!vis[r][c-1] && grid[r][c-1]==ori){
+                    q.add(new pair(r,c-1));
+                    vis[r][c-1]=true;
+                    grid[r][c-1]=color;
+                }
+            }
+            // right -> row,col+1
+            if((c+1)<n){
+                if(!vis[r][c+1] && grid[r][c+1]==ori){
+                    q.add(new pair(r,c+1));
+                    vis[r][c+1]=true;
+                    grid[r][c+1]=color;
+                }
             }
         }
+
     }
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int n=image.length;
-        int m=image[0].length;
-        int [][]ans=new int [n][m];
-        // ✅ IMPORTANT: copy image into ans
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                ans[i][j] = image[i][j];
-            }
-        }
-        int original=image[sr][sc];
-        if(original == color) return image; // imp
-        dfs(sr,sc,image,color,ans,original);
-        return ans;
+        int m=image.length;
+        int n=image[0].length;
+        boolean [][]vis=new boolean[m][n];
+        bfs(image,sr,sc,color,vis);
+        return image;
     }
 }
