@@ -1,16 +1,10 @@
 class Solution {
-    public void bfs(int node,ArrayList<ArrayList<Integer>> adj,boolean [] vis){
-        Queue<Integer> q=new LinkedList<>();
-        q.add(node);
+    public void dfs(ArrayList<ArrayList<Integer>> adj,boolean []vis,int source){
+        vis[source]=true;
 
-        while(!q.isEmpty()){
-            int curr=q.poll();
-
-            for(int adje:adj.get(curr)){
-                if(!vis[adje]){
-                    vis[adje]=true;
-                    q.add(adje);
-                }
+        for(int a:adj.get(source)){
+            if(!vis[a]){
+                dfs(adj,vis,a);
             }
         }
     }
@@ -27,10 +21,8 @@ class Solution {
             adj.get(u).add(v);
             adj.get(v).add(u);
         }
-        boolean [] vis=new boolean[n];
-        vis[source]=true;
-        bfs(source,adj,vis);
+        boolean []vis=new boolean[n];
+        dfs(adj,vis,source);
         return vis[destination];
-
     }
 }
