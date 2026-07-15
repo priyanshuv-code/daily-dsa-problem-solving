@@ -13,7 +13,7 @@ class Solution {
             s2+=2;
         }
         int ans=0;
-        for(int i=1;i<=end;i++){ 
+        for(int i=1;i<=Math.min(start,end);i++){ 
             if(start%i==0 && end%i==0) ans=Math.max(ans,i);
         }
         return ans;
