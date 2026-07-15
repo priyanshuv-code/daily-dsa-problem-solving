@@ -1,56 +1,79 @@
 class Solution {
-    private void dfs(int row,int col, int [][] vis,char [][]grid,int []delrow,int []delcol){
-        vis[row][col]=1;
-        int n=grid.length;
-        int m=grid[0].length;
-        for(int i=0;i<4;i++){
-            int nrow=row+delrow[i];
-            int ncol=col+delcol[i];
-            
-            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol]==0  && grid[nrow][ncol]=='O'){
-                dfs(nrow,ncol,vis,grid,delrow,delcol);
+    class pair{
+        int first;
+        int second;
+        pair(int first,int second){
+            this.first=first;
+            this.second=second;
+        }
+    }
+    public void bfs(char[][] board,boolean [][]vis,int row,int col){
+        int m=board.length;
+        int n=board[0].length;
+        Queue<pair> q=new LinkedList<>();
+        q.add(new pair(row,col));
+        vis[row][col]=true;
+        while(!q.isEmpty()){
+            pair curr=q.poll();
+            int r=curr.first;
+            int c=curr.second;
+
+            if(r-1>=0 && vis[r-1][c]==false && board[r-1][c]=='O'){
+                vis[r-1][c]=true;
+                q.add(new pair(r-1,c));
+            }
+            if(r+1<m && vis[r+1][c]==false && board[r+1][c]=='O'){
+                vis[r+1][c]=true;
+                q.add(new pair(r+1,c));
+            }
+            if(c-1>=0 && vis[r][c-1]==false && board[r][c-1]=='O'){
+                vis[r][c-1]=true;
+                q.add(new pair(r,c-1));
+            }
+            if(c+1<n && vis[r][c+1]==false && board[r][c+1]=='O'){
+                vis[r][c+1]=true;
+                q.add(new pair(r,c+1));
             }
         }
     }
     public void solve(char[][] grid) {
-        // Code here
-        int n=grid.length;
-        int m=grid[0].length;
-        
-        int [][]vis=new int [n][m];
-        
-        int []delrow={-1,0,1,0};
-        int []delcol={0,1,0,-1};
-        
-        // traverse first row and lat row;
-        
-        for(int j=0;j<m;j++){
-            if(vis[0][j]==0 && grid[0][j]=='O'){
-                dfs(0,j,vis,grid,delrow,delcol);
-            }
-            
-            if(vis[n-1][j]==0 && grid[n-1][j]=='O'){
-                dfs(n-1,j,vis,grid,delrow,delcol);
+        int m=grid.length; // row
+        int n=grid[0].length; // col;
+
+        boolean [][]vis=new boolean[m][n];
+
+        // Top row
+        for (int i = 0; i < n; i++) {
+            if (!vis[0][i] && grid[0][i] == 'O') {
+                bfs(grid, vis, 0, i);
             }
         }
-        // traverse first col and last col;
-        
-        for(int i=0;i<n;i++){
-            if(vis[i][0]==0 && grid[i][0]=='O'){
-                dfs(i,0,vis,grid,delrow,delcol);
-            }
-            
-            if(vis[i][m-1]==0 && grid[i][m-1]=='O'){
-                dfs(i,m-1,vis,grid,delrow,delcol);
+
+        // Bottom row
+        for (int i = 0; i < n; i++) {
+            if (!vis[m - 1][i] && grid[m - 1][i] == 'O') {
+                bfs(grid, vis, m - 1, i);
             }
         }
-        
-        // convert unvisited o->x
-        
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(vis[i][j]==0 && grid[i][j]=='O'){
+
+        // Left column
+        for (int i = 0; i < m; i++) {
+            if (!vis[i][0] && grid[i][0] == 'O') {
+                bfs(grid, vis, i, 0);
+            }
+        }
+
+        // Right column
+        for (int i = 0; i < m; i++) {
+            if (!vis[i][n - 1] && grid[i][n - 1] == 'O') {
+                bfs(grid, vis, i, n - 1);
+            }
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(vis[i][j]==false && grid[i][j]=='O'){
                     grid[i][j]='X';
+                    vis[i][j]=true;
                 }
             }
         }
