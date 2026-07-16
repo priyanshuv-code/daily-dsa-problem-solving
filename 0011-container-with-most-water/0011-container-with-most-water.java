@@ -1,20 +1,20 @@
 class Solution {
     public int maxArea(int[] height) {
-        int n=height.length;
-        int max=Integer.MIN_VALUE;
-        int i=0;
-        int j=n-1;
-        while(i<j){
-            int len=j-i;
-            int hei=Math.min(height[i],height[j]);
-            max=Math.max(max,hei*len);
-            if( height[j]< height[i]){
-                j--;
-            }
-            else{
-                i++;
-            }
+       int n=height.length;
+       int low=0;
+       int high=n-1;
+       int ans=0;
+       while(low<=high){
+        int min=Math.min(height[low],height[high]);
+        int len=high-low;
+        if(height[low]<=height[high]){
+            low++;
         }
-        return max;
-    }   
+        else{
+            high--;
+        }
+        ans=Math.max(min*len,ans);
+       }
+       return ans;
+    }
 }
