@@ -13,7 +13,7 @@ class Solution {
                 set.remove(nums[i]);
                 i++;
             }
-            set.add(nums[j]);
+            
             if(j-i+1>k){
                 sum=sum-nums[i];
                 set.remove(nums[i]);
@@ -22,6 +22,7 @@ class Solution {
             if(j-i+1==k){
                 ans=Math.max(ans,sum);
             }
+            set.add(nums[j]);
             j++;
         }
         return ans;
