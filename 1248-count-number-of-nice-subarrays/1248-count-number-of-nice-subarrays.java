@@ -1,23 +1,22 @@
 class Solution {
     public int numberOfSubarrays(int[] nums, int k) {
-        return Atmost(nums,k)-Atmost(nums,k-1);
+        return goal(nums,k)-goal(nums,k-1);
     }
-    private int Atmost(int [] nums,int k){
-        int n=nums.length;
-        int count=0;
+    public static int goal(int []nums,int k){
+        int oddcnt=0;
         int i=0;
         int j=0;
-        int ans=0;
-        while(j<n){
-            if(nums[j]%2!=0)count++;
+        int cnt=0;
+        while(j<nums.length){
+            if(nums[j]%2!=0)oddcnt++;
 
-            while(count>k){
-                if(nums[i]%2!=0)count--;
+            while(oddcnt>k){
+                if(nums[i]%2!=0)oddcnt--;
                 i++;
             }
-            ans+=j-i+1;
-            j++;
+           cnt+=j-i+1; 
+           j++;
         }
-        return ans;
+        return cnt;
     }
 }
