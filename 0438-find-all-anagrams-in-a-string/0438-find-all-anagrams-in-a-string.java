@@ -1,48 +1,23 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> ans = new ArrayList<>();
-        if (s.length() < p.length()) return ans;
+        int n=s.length();
+        int m=p.length();
+        int []s_arr=new int[26];
+        int []p_arr=new int[26];
+        List<Integer> ans=new ArrayList<>();
+        for(int i=0;i<m;i++){
+            p_arr[p.charAt(i)-'a']++;
+        }
+        for(int i=0;i<n;i++){
+            s_arr[s.charAt(i)-'a']++;
 
-        // Step 1: frequency of p
-        HashMap<Character, Integer> pMap = new HashMap<>();
-        for (char ch : p.toCharArray()) {
-            if (pMap.containsKey(ch)) {
-                pMap.put(ch, pMap.get(ch) + 1);
-            } else {
-                pMap.put(ch, 1);
+            if(i>=m){
+                s_arr[s.charAt(i-m)-'a']--;
+            }
+            if(Arrays.equals(s_arr,p_arr)){
+                ans.add(i-m+1);
             }
         }
-
-        // Step 2: sliding window
-        HashMap<Character, Integer> sMap = new HashMap<>();
-        int window = p.length();
-
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-
-            // add character to window
-            if (sMap.containsKey(ch)) {
-                sMap.put(ch, sMap.get(ch) + 1);
-            } else {
-                sMap.put(ch, 1);
-            }
-
-            // remove character out of window
-            if (i >= window) {
-                char toRemove = s.charAt(i - window);
-                if (sMap.get(toRemove) == 1) {
-                    sMap.remove(toRemove);
-                } else {
-                    sMap.put(toRemove, sMap.get(toRemove) - 1);
-                }
-            }
-
-            // compare both maps
-            if (sMap.equals(pMap)) {
-                ans.add(i - window + 1);
-            }
-        }
-
         return ans;
     }
 }
