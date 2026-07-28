@@ -1,30 +1,22 @@
 class Solution {
-    public boolean checkeating(int []piles,int k,int h){
+    public boolean isPossible(int []piles,int h,int k){
         long cnt=0;
         for(int i=0;i<piles.length;i++){
             cnt+=(piles[i]+k-1)/k;
         }
-        if(cnt<=h){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return cnt<=h;
     }
     public int minEatingSpeed(int[] piles, int h) {
         int n=piles.length;
         int low=1;
         int high=0;
         for(int i=0;i<n;i++){
-            low=Math.min(low,piles[i]);
             high=Math.max(high,piles[i]);
         }
         int ans=0;
         while(low<=high){
             int mid=low+(high-low)/2;
-            boolean caneat=checkeating(piles,mid,h);
-
-            if(caneat==true){
+            if(isPossible(piles,h,mid)){
                 ans=mid;
                 high=mid-1;
             }
