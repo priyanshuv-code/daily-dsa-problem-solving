@@ -4,18 +4,16 @@ class Solution {
         int i=0;
         int j=n-1;
         while(i<=j){
-            int mid=(i+j)/2;
-            if(nums[mid]==target){
-                return true;
-            }
+            int mid=i+(j-i)/2;
+            if(nums[mid]==target)return true;
             if(nums[i] == nums[mid] && nums[mid] == nums[j]){
                 i++;
                 j--;
                 continue;
             }
             if(nums[i]<=nums[mid]){
-                // means left side is sorted
-                if(nums[i]<=target && target<nums[mid]){
+                // left sort
+                if(target>=nums[i] && target<nums[mid]){
                     j=mid-1;
                 }
                 else{
@@ -23,7 +21,8 @@ class Solution {
                 }
             }
             else{
-                if(target>nums[mid] && target<=nums[j]){
+                // right sort
+                if(nums[mid]<target && target<=nums[j]){
                     i=mid+1;
                 }
                 else{
