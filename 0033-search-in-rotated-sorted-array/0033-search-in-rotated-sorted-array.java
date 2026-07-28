@@ -3,12 +3,11 @@ class Solution {
         int n=nums.length;
         int i=0;
         int j=n-1;
-
         while(i<=j){
             int mid=i+(j-i)/2;
             if(nums[mid]==target)return mid;
-
             if(nums[i]<=nums[mid]){
+                // left sort
                 if(target>=nums[i] && target<nums[mid]){
                     j=mid-1;
                 }
@@ -17,7 +16,8 @@ class Solution {
                 }
             }
             else{
-                if(target>nums[mid] && target<=nums[j]){
+                // right sort
+                if(nums[mid]<target && target<=nums[j]){
                     i=mid+1;
                 }
                 else{
