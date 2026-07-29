@@ -1,8 +1,9 @@
 class Solution {
-    public boolean ispossible(int [] weights,int mid,int days){
+    public boolean isPossible(int []weights,int days,int mid){
+        int n=weights.length;
         int cnt=1;
         int sum=0;
-        for(int i=0;i<weights.length;i++){
+        for(int i=0;i<n;i++){
             if(sum+weights[i]>mid){
                 cnt++;
                 sum=weights[i];
@@ -17,15 +18,14 @@ class Solution {
         int n=weights.length;
         int low=0;
         int high=0;
+        int ans=0;
         for(int i=0;i<n;i++){
-            low = Math.max(low, weights[i]);
+            low=Math.max(low,weights[i]);
             high+=weights[i];
         }
-        int ans=0;
         while(low<=high){
             int mid=low+(high-low)/2;
-
-            if(ispossible(weights,mid,days)){
+            if(isPossible(weights,days,mid)){
                 ans=mid;
                 high=mid-1;
             }
