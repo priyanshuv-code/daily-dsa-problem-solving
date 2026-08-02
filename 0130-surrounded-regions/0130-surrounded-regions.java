@@ -1,81 +1,66 @@
+class pair{
+    int row;
+    int col;
+    pair(int row,int col){
+        this.row=row;
+        this.col=col;
+    }
+}
 class Solution {
-    class pair{
-        int first;
-        int second;
-        pair(int first,int second){
-            this.first=first;
-            this.second=second;
-        }
-    }
-    public void bfs(char[][] board,boolean [][]vis,int row,int col){
-        int m=board.length;
-        int n=board[0].length;
+    public void bfs(char [][] board,boolean [][]vis,int rows,int cols){
+        int m=board.length; // row; 
+        int n=board[0].length; //col
         Queue<pair> q=new LinkedList<>();
-        q.add(new pair(row,col));
-        vis[row][col]=true;
+        q.add(new pair(rows,cols));
+        vis[rows][cols]=true;
+        int [] delrow={-1,0,1,0};
+        int [] delcol={0,1,0,-1};
         while(!q.isEmpty()){
-            pair curr=q.poll();
-            int r=curr.first;
-            int c=curr.second;
-
-            if(r-1>=0 && vis[r-1][c]==false && board[r-1][c]=='O'){
-                vis[r-1][c]=true;
-                q.add(new pair(r-1,c));
-            }
-            if(r+1<m && vis[r+1][c]==false && board[r+1][c]=='O'){
-                vis[r+1][c]=true;
-                q.add(new pair(r+1,c));
-            }
-            if(c-1>=0 && vis[r][c-1]==false && board[r][c-1]=='O'){
-                vis[r][c-1]=true;
-                q.add(new pair(r,c-1));
-            }
-            if(c+1<n && vis[r][c+1]==false && board[r][c+1]=='O'){
-                vis[r][c+1]=true;
-                q.add(new pair(r,c+1));
-            }
-        }
-    }
-    public void solve(char[][] grid) {
-        int m=grid.length; // row
-        int n=grid[0].length; // col;
-
-        boolean [][]vis=new boolean[m][n];
-
-        // Top row
-        for (int i = 0; i < n; i++) {
-            if (!vis[0][i] && grid[0][i] == 'O') {
-                bfs(grid, vis, 0, i);
-            }
-        }
-
-        // Bottom row
-        for (int i = 0; i < n; i++) {
-            if (!vis[m - 1][i] && grid[m - 1][i] == 'O') {
-                bfs(grid, vis, m - 1, i);
-            }
-        }
-
-        // Left column
-        for (int i = 0; i < m; i++) {
-            if (!vis[i][0] && grid[i][0] == 'O') {
-                bfs(grid, vis, i, 0);
-            }
-        }
-
-        // Right column
-        for (int i = 0; i < m; i++) {
-            if (!vis[i][n - 1] && grid[i][n - 1] == 'O') {
-                bfs(grid, vis, i, n - 1);
-            }
-        }
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(vis[i][j]==false && grid[i][j]=='O'){
-                    grid[i][j]='X';
-                    vis[i][j]=true;
+            pair top=q.poll();
+            int r=top.row;
+            int c=top.col;
+            for(int i=0;i<4;i++){
+                int nr=delrow[i]+r;
+                int nc=delcol[i]+c;
+                if(nr>=0 && nr<m && nc>=0 && nc<n && vis[nr][nc]==false && board[nr][nc]=='O'){
+                    vis[nr][nc]=true;
+                    q.add(new pair(nr,nc));
                 }
             }
         }
     }
+    public void solve(char[][] board) {
+        int m=board.length;
+        int n=board[0].length;
+        boolean [][]vis=new boolean[m][n];
+        for(int i=0;i<n;i++){
+            if(!vis[0][i] && board[0][i]=='O'){
+                bfs(board, vis, 0, i);
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(!vis[m-1][i] && board[m-1][i]=='O'){
+                bfs(board, vis, m-1, i);
+            }
+        }
+        for(int i=0;i<m;i++){
+            if(!vis[i][0] && board[i][0]=='O'){
+                bfs(board, vis, i, 0);
+            }
+        }
+        for(int i=0;i<m;i++){
+            if(!vis[i][n-1] && board[i][n-1]=='O'){
+                bfs(board, vis, i, n-1);
+            }
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(!vis[i][j] && board[i][j]=='O'){
+                    vis[i][j]=true;
+                    board[i][j]='X';
+                }
+            }
+        }
+
+    } 
 }
