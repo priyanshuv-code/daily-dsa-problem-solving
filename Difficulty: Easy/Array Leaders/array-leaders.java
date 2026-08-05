@@ -1,17 +1,16 @@
 class Solution {
     static ArrayList<Integer> leaders(int arr[]) {
         // code here
-        Stack<Integer> st=new Stack<>();
-        ArrayList<Integer> ans=new ArrayList<>();
+        ArrayList<Integer> list=new ArrayList<>();
         int n=arr.length;
+        int max=0;
         for(int i=n-1;i>=0;i--){
-            while(!st.isEmpty() && st.peek()<=arr[i]){
-                st.pop();
+            if(arr[i]>=max){
+                list.add(arr[i]);
+                 max=arr[i];
             }
-            if(st.isEmpty()) ans.add(arr[i]);
-            st.push(arr[i]);
         }
-        Collections.reverse(ans);
-        return ans;
+        Collections.reverse(list);
+        return list;
     }
 }
