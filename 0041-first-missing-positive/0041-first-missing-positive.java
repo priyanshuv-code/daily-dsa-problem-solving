@@ -11,7 +11,7 @@ class Solution {
        }
        int ans=1;  
        for(int i=idx;i<n;i++){
-        if(i > idx && nums[i] == nums[i-1]) continue;
+        if(i != 0 && nums[i] == nums[i-1]) continue;
         if(nums[i]!=ans){
             return ans;
         }
