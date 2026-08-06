@@ -11,7 +11,7 @@ class Solution {
     public void wiggleSort(int[] nums) {
         Arrays.sort(nums);
         int n=nums.length;
-        int[] arr1 = new int[(n + 1) / 2];
+        int[] arr1 = new int[n - n / 2];
         int[] arr2 = new int[n / 2];
         int idx=0;
         for(int i=0;i<arr1.length;i++){
