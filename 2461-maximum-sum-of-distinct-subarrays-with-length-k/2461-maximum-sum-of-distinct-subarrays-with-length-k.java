@@ -1,35 +1,27 @@
 class Solution {
     public long maximumSubarraySum(int[] nums, int k) {
-        HashMap<Integer,Integer> map=new HashMap<>();
-        int i=0;
-        int j=0;
+        int n=nums.length;
+        long max=0;
         long sum=0;
-        long ans=0;
-        while(j<nums.length){
+        int i=0;
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int j=0;j<n;j++){
             sum+=nums[j];
-            if(map.containsKey(nums[j])){
-                map.put(nums[j],map.get(nums[j])+1);
-            }
-            else{
-                map.put(nums[j],1);
-            }
-            while(map.get(nums[j])>1){
-                sum-=nums[i];
-                map.put(nums[i],map.get(nums[i])-1);
-                if(map.get(nums[i])==0)map.remove(nums[i]);
-                i++;
-            }
-            if(j-i+1>k){
-                sum-=nums[i];
-                map.put(nums[i],map.get(nums[i])-1);
-                if(map.get(nums[i])==0)map.remove(nums[i]);
-                i++;
-            }
+            map.put(nums[j],map.getOrDefault(nums[j],0)+1);
             if(j-i+1==k){
-                ans=Math.max(ans,sum);
+                if(map.size()==k){
+                    max=Math.max(max,sum);
+                }
+                sum-=nums[i];
+                if(map.containsKey(nums[i])){
+                    if(map.get(nums[i])>0){
+                        map.put(nums[i],map.get(nums[i])-1);
+                    }
+                    if(map.get(nums[i])==0)map.remove(nums[i]);
+                }
+               i++; 
             }
-            j++;
         }
-        return ans; 
+        return max;
     }
 }
