@@ -1,22 +1,28 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        int n=s.length();
-        int m=p.length();
-        int []s_arr=new int[26];
-        int []p_arr=new int[26];
         List<Integer> ans=new ArrayList<>();
-        for(int i=0;i<m;i++){
-            p_arr[p.charAt(i)-'a']++;
+        HashMap<Character,Integer> map1=new HashMap<>();
+        for(int i=0;i<p.length();i++){
+            map1.put(p.charAt(i),map1.getOrDefault(p.charAt(i),0)+1);
         }
-        for(int i=0;i<n;i++){
-            s_arr[s.charAt(i)-'a']++;
-
-            if(i>=m){
-                s_arr[s.charAt(i-m)-'a']--;
+        HashMap<Character,Integer> map2=new HashMap<>();
+        int i=0;
+        int j=0;
+        while(j<s.length()){
+            char ch=s.charAt(j);
+            map2.put(ch, map2.getOrDefault(ch, 0) + 1);
+            if(j-i+1>p.length()){
+                char remove=s.charAt(i);
+                map2.put(remove, map2.getOrDefault(remove, 0)-1);
+                if(map2.get(remove)==0)map2.remove(remove);
+                i++;
             }
-            if(Arrays.equals(s_arr,p_arr)){
-                ans.add(i-m+1);
+            if(j-i+1==p.length()){
+                if(map1.equals(map2)){
+                    ans.add(i);
+                }
             }
+            j++;
         }
         return ans;
     }
