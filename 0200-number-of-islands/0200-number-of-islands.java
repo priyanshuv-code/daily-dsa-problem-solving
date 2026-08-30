@@ -1,68 +1,32 @@
 class Solution {
-    class pair{
-        int row;
-        int col;
-        pair(int row,int col){
-            this.row=row;
-            this.col=col;
-        }
-    }
-    public void bfs(int i,int j,boolean [][] vis,char [][] grid){
-        int m=grid.length;
-        int n=grid[0].length;
-
-        Queue<pair> q=new LinkedList<>();
-        q.add(new pair(i,j));
-        while(q.size()>0){
-            pair f=q.remove();
-            int row=f.row,  col=f.col;
-
-            // top -> row-1,col
-
-            if(row>0){
-                if(vis[row-1][col]==false && grid[row-1][col]=='1'){
-                    q.add(new pair(row-1,col));
-                    vis[row-1][col]=true;
-                }
-            }
-            // bottom -> row+1,col;
-
-            if((row+1)<m){
-                if(vis[row+1][col]==false && grid[row+1][col]=='1'){
-                    vis[row+1][col]=true;
-                    q.add(new pair(row+1,col));
-                }
-            }
-            // right -> row,col+1;
-            if((col+1)<n){
-                if(vis[row][col+1]==false && grid[row][col+1]=='1'){
-                    vis[row][col+1]=true;
-                    q.add(new pair(row,col+1));
-                }
-            }
-            // left -> row,col-1;
-            if(col>0){
-                if(vis[row][col-1]==false && grid[row][col-1]=='1'){
-                    vis[row][col-1]=true;
-                    q.add(new pair(row,col-1));
-                }
+    public void dfs(int r,int c,char[][] grid,boolean[][] vis,int []row,int []col){
+        int n=grid.length;
+        int m=grid[0].length;
+        vis[r][c]=true;
+        for(int i=0;i<4;i++){
+            int nr=r+row[i];
+            int cr=c+col[i];
+            if(nr >= 0 && nr < n && cr >= 0 && cr < m
+        && !vis[nr][cr] && grid[nr][cr] == '1'){
+                dfs(nr,cr,grid,vis,row,col);
             }
         }
     }
     public int numIslands(char[][] grid) {
-        int m=grid.length;
-        int n=grid[0].length;
-
-        int cnt=0;
-        boolean [][]vis=new boolean[m][n];
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]=='1' && vis[i][j]==false){
-                    bfs(i,j,vis,grid);
-                    cnt++;
+        int n=grid.length;
+        int m=grid[0].length;
+        int count=0;
+        boolean [][] vis=new boolean[n][m];
+        int []row={0,1,-1,0};
+        int []col={-1,0,0,1};
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(!vis[i][j] && grid[i][j]=='1'){
+                    dfs(i,j,grid,vis,row,col);
+                    count++;
                 }
             }
         }
-        return cnt;
+        return count;
     }
 }
