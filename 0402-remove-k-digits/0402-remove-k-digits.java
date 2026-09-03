@@ -1,44 +1,30 @@
 class Solution {
     public String removeKdigits(String num, int k) {
-        Stack<Character> st = new Stack<>();
-
-        for(int i = 0; i < num.length(); i++) {
-
-            while(k > 0 && !st.isEmpty() && st.peek() > num.charAt(i)) {
+        int n=num.length();
+        Stack<Character> st=new Stack<>();;
+        for(int i=0;i<n;i++){
+            char ch=num.charAt(i);
+            while(!st.isEmpty() && k!=0 && st.peek()>ch){
                 st.pop();
                 k--;
             }
-
-            st.push(num.charAt(i));
+            st.push(ch);
         }
-
-        // Remove remaining digits from the end
-        while(k > 0) {
+         while (k != 0) {
             st.pop();
             k--;
         }
-
-        StringBuilder str = new StringBuilder();
-
-        while(!st.isEmpty()) {
-            str.append(st.pop());
+        StringBuilder ans=new StringBuilder();
+        while(!st.isEmpty()){
+            ans.append(st.pop());
         }
-
-        str.reverse();
-
-        // Remove leading zeroes
-        int i = 0;
-
-        while(i < str.length() - 1 && str.charAt(i) == '0') {
+        ans.reverse();
+        int i=0;
+        while(i<ans.length() && ans.charAt(i)=='0'){
             i++;
         }
-
-        str = new StringBuilder(str.substring(i));
-
-        if(str.length() == 0) {
-            return "0";
-        }
-
-        return str.toString();
+        ans = new StringBuilder(ans.substring(i));
+        if(ans.length()==0)return "0";
+        return ans.toString();
     }
 }
