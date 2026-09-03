@@ -1,43 +1,32 @@
 class Solution {
-    public int[] asteroidCollision(int[] asteroids) {
-        int n = asteroids.length;
-        Stack<Integer> st = new Stack<>();
-
-        for (int i = 0; i < n; i++) {
+    public int[] asteroidCollision(int[] a) {
+        int n=a.length;
+        Stack<Integer> st=new Stack<>();
+        for(int i=0;i<n;i++){
             boolean destroyed = false;
-
-            if (st.isEmpty() || (st.peek() > 0 && asteroids[i] > 0)) {
-                st.push(asteroids[i]);
-            }
-            else if (st.isEmpty() || (st.peek() < 0 && asteroids[i] < 0)) {
-                st.push(asteroids[i]);
-            }
-            else {
-                while (!st.isEmpty() && st.peek() > 0 && asteroids[i] < 0) {
-                    if (Math.abs(asteroids[i]) > Math.abs(st.peek())) {
-                        st.pop();
-                    }
-                    else if (Math.abs(asteroids[i]) == Math.abs(st.peek())) {
-                        st.pop();
-                        destroyed = true;
-                        break;
-                    }
-                    else {
-                        destroyed = true;
-                        break;
-                    }
+            while(!st.isEmpty() && st.peek()>0 && a[i]<0){
+                if(Math.abs(st.peek())<Math.abs(a[i])){
+                    st.pop();
                 }
-
-                if (!destroyed) {
-                    st.push(asteroids[i]);
+                else if(Math.abs(st.peek())>Math.abs(a[i])){
+                    destroyed = true;
+                    break;
+                }
+                else{
+                    st.pop();
+                    destroyed = true;
+                    break;
                 }
             }
+            if (!destroyed) {
+                st.push(a[i]);
+            }
+            
         }
-
-        int[] res = new int[st.size()];
-        for (int i = st.size() - 1; i >= 0; i--) {
-            res[i] = st.pop();
+        int []ans=new int[st.size()];
+        for (int i = 0; i<st.size(); i++) {
+            ans[i] = st.get(i);
         }
-        return res;
+        return ans;
     }
 }
