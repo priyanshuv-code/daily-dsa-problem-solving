@@ -1,27 +1,29 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
         HashMap<Character,Integer> map1=new HashMap<>();
-        for(int i=0;i<s1.length();i++){
-            map1.put(s1.charAt(i),map1.getOrDefault(s1.charAt(i),0)+1);
+        int l1=s1.length();
+        int l2=s2.length();
+        for(int i=0;i<l1;i++){
+            char ch=s1.charAt(i);
+            map1.put(ch,map1.getOrDefault(ch,0)+1);
         }
-        HashMap<Character,Integer> map2=new HashMap<>();
         int i=0;
         int j=0;
-        while(j<s2.length()){
-            map2.put(s2.charAt(j),map2.getOrDefault(s2.charAt(j),0)+1);
-            if(j-i+1>s1.length()){
-                map2.put(s2.charAt(i),map2.getOrDefault(s2.charAt(i),0)-1);
-                if(map2.get(s2.charAt(i))==0)map2.remove(s2.charAt(i));
-                i++;
-            }
-            if(j-i+1==s1.length()){
+        HashMap<Character,Integer> map2=new HashMap<>();
+        while(j<l2){
+            char ch=s2.charAt(j);
+            map2.put(ch,map2.getOrDefault(ch,0)+1);
+            if(j-i+1==l1){
                 if(map1.equals(map2)){
                     return true;
                 }
+                char ch1=s2.charAt(i);
+                map2.put(ch1, map2.get(ch1) - 1);
+                if(map2.get(ch1)==0)map2.remove(ch1);
+                i++;
             }
             j++;
         }
         return false;
-
     }
 }
