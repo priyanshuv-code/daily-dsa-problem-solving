@@ -1,38 +1,23 @@
 class Solution {
-
     public int rob(int[] nums) {
+        int n=nums.length;
+        if(n==1) return nums[0];
+        int []dp1=new int[n];
+        int []dp2=new int[n];
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+        int case1=rob(nums,0,n-2,dp1);
+        int case2=rob(nums,1,n-1,dp2);
 
-        int n = nums.length;
-
-        if (n == 1) {
-            return nums[0];
-        }
-
-        // Case 1: Don't rob the last house
-        int case1 = robRange(nums, 0, n - 2);
-
-        // Case 2: Don't rob the first house
-        int case2 = robRange(nums, 1, n - 1);
-
-        return Math.max(case1, case2);
+        return Math.max(case1,case2);
     }
+    public int rob(int [] nums,int start,int end,int[] dp){
+        if(start>end)return 0;
+        if(dp[start]!=-1)return dp[start];
+        int take=nums[start]+rob(nums,start+2,end,dp);
+        int nottake=rob(nums,start+1,end,dp);
 
-    public int robRange(int[] nums, int start, int end) {
-
-        int prev2 = 0;
-        int prev1 = 0;
-
-        for (int i = start; i <= end; i++) {
-
-            int take = nums[i] + prev2;
-            int notTake = prev1;
-
-            int curr = Math.max(take, notTake);
-
-            prev2 = prev1;
-            prev1 = curr;
-        }
-
-        return prev1;
+        dp[start]= Math.max(take,nottake);
+        return dp[start];
     }
 }
