@@ -1,48 +1,41 @@
 class Solution {
     public String minWindow(String s, String t) {
-        HashMap<Character,Integer> t_map=new HashMap<>();
-        // frequency of t...
-        for(int j=0;j<t.length();j++){
-            char ch=t.charAt(j);
-            if(t_map.containsKey(ch)){
-               t_map.put(ch,t_map.get(ch)+1);
-            }
-            else{
-                t_map.put(ch,1);
-            }
+        int t1=t.length();
+        HashMap<Character,Integer> map=new HashMap<>();
+        for(int i=0;i<t1;i++){
+            char ch=t.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
         }
+        int start=0;
         int min=Integer.MAX_VALUE;
-        int t_count=t.length();
         int i=0;
         int j=0;
-        int start=0;
-        while(j<s.length()){
-            char ch=s.charAt(j);
-            if(t_map.containsKey(ch)){
-                if (t_map.get(ch) > 0) t_count--; 
-                t_map.put(ch,t_map.get(ch)-1);
+        int cnt=t.length();
+        int n=s.length();
+        while(j<n){
+            char ch =s.charAt(j);
+            if(map.containsKey(ch)){
+                if(map.get(ch)>0) cnt--;
+                map.put(ch,map.get(ch)-1);
             }
-            while(t_count==0){
-                if(j-i+1<min){
+            while(cnt==0){
+                if(min>j-i+1){
                     min=j-i+1;
                     start=i;
                 }
-
-                char left=s.charAt(i);
-                if(t_map.containsKey(left)){
-                    t_map.put(left,t_map.get(left)+1);
-                    if (t_map.get(left) > 0) t_count++;
+                char left=s.charAt(i); 
+                if(map.containsKey(left)){
+                    map.put(left,map.get(left)+1);
+                    if(map.get(left)>0)
+                    cnt++;
                 }
                 i++;
             }
             j++;
         }
-        if(min==Integer.MAX_VALUE){
+       if(min==Integer.MAX_VALUE){
             return "";
         }
-        else{
-            return s.substring(start,start+min); 
-        }
-
+        return s.substring(start,start+min);
     }
 }
