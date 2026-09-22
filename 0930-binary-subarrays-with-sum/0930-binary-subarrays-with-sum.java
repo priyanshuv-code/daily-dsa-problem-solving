@@ -1,19 +1,17 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        if (goal == 0) {
-            return Atmost(nums, 0);
-        }
-        return Atmost(nums,goal)-Atmost(nums,goal-1);
+        return g(nums,goal)-g(nums,goal-1);
     }
-    public int Atmost(int [] nums,int goal){
-        int n=nums.length;
+    public static int g(int[] nums, int k){
         int i=0;
         int j=0;
-        int sum=0; 
+        int n=nums.length;
+        int sum=0;
         int cnt=0;
         while(j<n){
+            if(k<0)return 0;
             sum+=nums[j];
-            while(sum>goal){
+            while(sum>k){
                 sum-=nums[i];
                 i++;
             }
