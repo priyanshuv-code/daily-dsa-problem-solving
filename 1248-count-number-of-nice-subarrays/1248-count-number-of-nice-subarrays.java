@@ -1,22 +1,21 @@
 class Solution {
     public int numberOfSubarrays(int[] nums, int k) {
-        return goal(nums,k)-goal(nums,k-1);
+        return g(nums,k)-g(nums,k-1);
     }
-    public static int goal(int []nums,int k){
-        int oddcnt=0;
+    public static int g(int[] nums, int k){
+        int odd_cnt=0;
         int i=0;
         int j=0;
-        int cnt=0;
+        int ans=0;
         while(j<nums.length){
-            if(nums[j]%2!=0)oddcnt++;
-
-            while(oddcnt>k){
-                if(nums[i]%2!=0)oddcnt--;
+            if(nums[j]%2!=0)odd_cnt++;
+            while(odd_cnt>k){
+                if(nums[i]%2!=0)odd_cnt--;
                 i++;
             }
-           cnt+=j-i+1; 
-           j++;
+            ans+=j-i+1;
+            j++;
         }
-        return cnt;
+        return ans;
     }
 }
