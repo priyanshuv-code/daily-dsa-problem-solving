@@ -7,7 +7,7 @@ class Solution {
         for(int i=0;i<n;i++){
             sum+=nums[i];
             int diff=sum%k;
-            if (diff < 0) diff+= k;
+            // if (diff < 0) diff+= k;
             if(map.containsKey(diff)){
                 if(i-map.get(diff)>=2){
                     return true;
