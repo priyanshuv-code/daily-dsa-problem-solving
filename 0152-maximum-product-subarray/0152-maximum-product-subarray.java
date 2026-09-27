@@ -14,7 +14,7 @@ class Solution {
             int temp = currMax;
 
             currMax = Math.max(nums[i],
-                    Math.max(nums[i] * currMax,
+                    Math.max(nums[i] * temp,
                              nums[i] * currMin));
 
             currMin = Math.min(nums[i],
