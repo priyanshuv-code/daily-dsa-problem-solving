@@ -1,11 +1,19 @@
 class Solution {
+    public boolean ispall(String s,int start,int end){
+        while(start<end){
+            if(s.charAt(start)!=s.charAt(end))return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
     public String longestPalindrome(String s) {
         String ans="";
-        for(int i=0;i<s.length();i++){
-            for(int j=i;j<s.length();j++){
-                if(ispallindromic(s,i,j)){
-                    if(j-i+1>ans.length())
-                    {
+        int n=s.length();
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                if(ispall(s,i,j)){
+                    if(j-i+1>ans.length()){
                         ans=s.substring(i,j+1);
                     }
                 }
@@ -13,14 +21,4 @@ class Solution {
         }
         return ans;
     }
-    public static boolean ispallindromic(String s,int start,int end){
-        while(start<end){
-            if(s.charAt(start)!=s.charAt(end)){
-                return false;
-            }
-            start++;
-            end--;
-        }
-        return true;
-    }    
 }
