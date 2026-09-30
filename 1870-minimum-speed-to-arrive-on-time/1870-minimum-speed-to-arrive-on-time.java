@@ -1,21 +1,21 @@
 class Solution {
-    public boolean ispossible(int [] dist,int mid,double hour){
-        double cnt=0;
-        for(int i=0;i<dist.length-1;i++){
-            cnt += Math.ceil((double) dist[i] / mid);
+    public boolean ispossible(int []dist,int k,double h){
+        double a=0;
+        for(int i=0; i<dist.length-1; i++){
+            a += Math.ceil((double)dist[i]/k);
         }
-        cnt+=(double) dist[dist.length - 1] / mid;
-        return cnt<=hour;
+        a += (double)dist[dist.length-1]/k;
+        return a<=h;
     }
     public int minSpeedOnTime(int[] dist, double hour) {
         int n=dist.length;
         int start=1;
-        int end = 10000000;
+        int end=10000000;
         int ans=-1;
         while(start<=end){
             int mid=start+(end-start)/2;
             if(ispossible(dist,mid,hour)){
-                ans=mid;
+                ans=mid;;
                 end=mid-1;
             }
             else{
