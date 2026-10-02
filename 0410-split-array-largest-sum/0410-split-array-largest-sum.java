@@ -1,6 +1,6 @@
 class Solution {
-    public boolean ispossible(int [] nums,int mid,int k){
-        int cnt=1;
+    public static boolean ispos(int []nums,int mid,int k){
+        int cnt=0;
         int sum=0;
         for(int i=0;i<nums.length;i++){
             if(sum+nums[i]>mid){
@@ -11,23 +11,23 @@ class Solution {
                 sum+=nums[i];
             }
         }
-        return cnt<=k;
+        return cnt<k;
     }
     public int splitArray(int[] nums, int k) {
-        int n=nums.length;
         int start=0;
         int end=0;
-        int ans=0;
+        int n=nums.length;
         for(int i=0;i<n;i++){
             start=Math.max(start,nums[i]);
             end+=nums[i];
         }
+        int ans=0;
         while(start<=end){
             int mid=start+(end-start)/2;
-            if(ispossible(nums,mid,k)){
+            if(ispos(nums,mid,k)){
                 ans=mid;
                 end=mid-1;
-            }  
+            }
             else{
                 start=mid+1;
             }
