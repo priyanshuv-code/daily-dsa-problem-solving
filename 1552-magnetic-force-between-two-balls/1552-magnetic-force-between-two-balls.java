@@ -1,32 +1,31 @@
 class Solution {
-    private boolean ispossible(int mid,int []  position,int m){
+    public static boolean ispossible(int [] pos,long mid,int m){
+        int last=pos[0];
         int cnt=1;
-        int last= position[0];
-        for(int i=1;i< position.length;i++){
-            if( position[i]-last>=mid){
+        for(int i=1;i<pos.length;i++){
+            if(pos[i]-last>=mid){
                 cnt++;
-                last=position[i];
+                last=pos[i];
             }
         }
         return cnt>=m;
     }
-    public int maxDistance(int[] position, int m) {
-        Arrays.sort( position);
-        int low=1;
-        int high= position[ position.length-1]-  position[0];
-
-        int ans=0;
-
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            if(ispossible(mid, position,m)){
+    public int maxDistance(int[] pos, int m) {
+        int n=pos.length;
+        Arrays.sort(pos);
+        int start=0;
+        int end=pos[n-1]-pos[0];
+        long ans=0;
+        while(start<=end){
+            int mid=start+(end-start)/2;;
+            if(ispossible(pos,mid,m)){
                 ans=mid;
-                low=mid+1;
+                start=mid+1;
             }
             else{
-                high=mid-1;
+                end=mid-1;
             }
         }
-        return ans;
+        return (int)ans;
     }
 }
