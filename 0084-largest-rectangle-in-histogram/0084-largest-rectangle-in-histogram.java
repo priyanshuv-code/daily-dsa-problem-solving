@@ -1,38 +1,61 @@
 class Solution {
-    public int largestRectangleArea(int[] heights) {
+    public int largestRectangleArea(int[] h) {
 
-        int ans = 0;
-        int index;
         Stack<Integer> st = new Stack<>();
-        int n = heights.length;
 
-        for (int i = 0; i < n; i++) {
+        int n = h.length;
 
-            while (!st.isEmpty() && heights[st.peek()] > heights[i]) {
+        int[] lse = new int[n];
+        int[] gse = new int[n];
 
-                index = st.peek();
+        // LSE
+        lse[0] = -1;
+        st.push(0);
+
+        for (int i = 1; i < n; i++) {
+
+            while (!st.isEmpty() && h[st.peek()] >= h[i]) {
                 st.pop();
-
-                if (!st.isEmpty()) {
-                    ans = Math.max(ans, heights[index] * (i - st.peek() - 1));
-                } else {
-                    ans = Math.max(ans, heights[index] * i);
-                }
             }
+
+            if (st.isEmpty())
+                lse[i] = -1;
+            else
+                lse[i] = st.peek();
 
             st.push(i);
         }
 
-        while (!st.isEmpty()) {
+        // NSE
+        st.clear();
 
-            index = st.peek();
-            st.pop();
+        gse[n - 1] = n;
+        st.push(n - 1);
 
-            if (!st.isEmpty()) {
-                ans = Math.max(ans, heights[index] * (n - st.peek() - 1));
-            } else {
-                ans = Math.max(ans, heights[index] * n);
+        for (int i = n - 2; i >= 0; i--) {
+
+            while (!st.isEmpty() && h[st.peek()] >= h[i]) {
+                st.pop();
             }
+
+            if (st.isEmpty())
+                gse[i] = n;
+            else
+                gse[i] = st.peek();
+
+            st.push(i);
+        }
+
+        // Calculate maximum area
+        int ans = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            int width = gse[i] - lse[i] - 1;
+
+            int area = h[i] * width;
+
+            ans = Math.max(ans, area);
         }
 
         return ans;
