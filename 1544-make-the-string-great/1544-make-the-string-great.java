@@ -1,15 +1,14 @@
 class Solution {
     public String makeGood(String s) {
-        Stack<Character> st=new Stack<>();
         int n=s.length();
+        Stack<Character> st=new Stack<>();
         for(int i=0;i<n;i++){
-            boolean b=false;
             char ch=s.charAt(i);
-            if(!st.isEmpty() && Character.toLowerCase(st.peek()) == Character.toLowerCase(ch)
-            && st.peek() != ch){
+            boolean b=false;
+            if(!st.isEmpty() && Character.toLowerCase(ch)==Character.toLowerCase(st.peek()) && st.peek()!=ch){
                 st.pop();
                 b=true;
-            }
+            } 
             if(!b){
                 st.push(ch);
             }
