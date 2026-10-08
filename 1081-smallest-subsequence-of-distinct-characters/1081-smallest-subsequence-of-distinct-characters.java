@@ -1,42 +1,29 @@
 class Solution {
     public String smallestSubsequence(String s) {
-        int[] freq = new int[26];     // Step 1: frequency array
-        boolean[] visited = new boolean[26]; // Step 2: visited array
-        
-        // Count frequency
-        for (char ch : s.toCharArray()) {
-            freq[ch - 'a']++;
+     int n=s.length();
+        int []last_idx=new int[26];
+        boolean [] vis=new boolean[26];
+        for(int i=0;i<n;i++){
+            last_idx[s.charAt(i)-'a']=i;
         }
-        
-        Stack<Character> stack = new Stack<>();
-        
-        for (char ch : s.toCharArray()) {
-            
-            // decrease frequency
-            freq[ch - 'a']--;
-            
-            // if already in stack, skip
-            if (visited[ch - 'a']) continue;
-            
-            // maintain lexicographical order
-            while (!stack.isEmpty() &&
-                   stack.peek() > ch &&
-                   freq[stack.peek() - 'a'] > 0) {
-                
-                visited[stack.peek() - 'a'] = false;
-                stack.pop();
+        Stack<Character> st=new Stack<>();
+        for(int i=0;i<n;i++){
+            char ch=s.charAt(i);
+            if(vis[ch-'a'])continue;
+
+            while(!st.isEmpty() && st.peek()>ch && i<last_idx[st.peek()-'a']){
+                vis[st.peek()-'a']=false;
+                st.pop();
             }
-            
-            stack.push(ch);
-            visited[ch - 'a'] = true;
+            st.push(ch);
+            vis[ch-'a']=true;
         }
-        
-        // build result
-        StringBuilder result = new StringBuilder();
-        for (char ch : stack) {
-            result.append(ch);
+         StringBuilder ans=new StringBuilder();
+
+        while(!st.isEmpty()){
+            ans.append(st.pop());
         }
-        
-        return result.toString();
+        ans.reverse();
+        return ans.toString();
     }
 }
