@@ -11,7 +11,8 @@ class Solution {
                 sum+=nums[i];
             }
         }
-        return cnt<k;
+        if(sum<=mid)cnt++;
+        return cnt<=k;
     }
     public int splitArray(int[] nums, int k) {
         int start=0;
